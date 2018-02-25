@@ -19,6 +19,7 @@
   background-size: 30px 19px;
   background-position: center;
 }
+.menu__in,
 .menu,
 .nav {
   list-style-type: none;
