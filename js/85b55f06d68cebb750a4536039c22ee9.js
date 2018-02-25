@@ -1,0 +1,1 @@
+$(document).ready(function(){$(".pics").on('click','.pics__mini',function(e){e.preventDefault();var id=$(this).attr('data-id');$(".pics__mini").removeClass("pics__mini_active");$(".pics__big__img").hide();$(".pics__big__img[data-id='"+id+"']").show();$(".pics__mini[data-id='"+id+"']").addClass("pics__mini_active");});});

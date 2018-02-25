@@ -1,0 +1,22 @@
+$(".js_shop_depend_param, .shop_form .depend_param").change(function(){select_param_price($(this).parents('form'));});$(".js_shop_form, .shop_form").each(function(){empty_param_price($(this));select_param_price($(this));});$("[action=buy]").click(function(e){e.preventDefault();$(this).parents('form').find('input[name=action]').val('buy');$(this).parents('form').submit();});$("[action=wish]").click(function(e){e.preventDefault();$(this).parents('form').find('input[name=action]').val('wish');$(this).parents('form').submit();});$("[action=wait]").click(function(e){e.preventDefault();$(this).parents('form').find('input[name=action]').val('wait');$(this).parents('form').submit();});$("[action=one_click]").click(function(e){e.preventDefault();e.stopPropagation();$('form[one_click=true]').removeAttr('one_click');$(this).parents('form').attr('one_click','true');var good_id=$(this).attr('data-good_id');$('.popup').hide(0);centralize($('.js_cart_one_click[data-good_id="'+good_id+'"]'));});$(".js_cart_one_click_form, .cart_one_click_form").on('click',":button",function(){var self=$(this).parents(".js_cart_one_click_form, .cart_one_click_form");$('.js_shop_form_param input, .js_shop_form_param select, .shop_form_param input, .shop_form_param select, input[name=count]','form[one_click=true]').each(function(){$("input[name="+$(this).attr('name')+"]",self).remove();self.prepend('<input type="hidden" name="'+$(this).attr('name')+'" value="'+$(this).val()+'">');});self.submit();});$('.js_shop_wishlist, .shop-like').click(function(){var form=$(this).parents('.js_shop, .shop').find('.js_shop_form, .shop_form').first();form.find('input[name=action]').val('wish')
+form.submit();});$('.js_shop_add_compare, .shop_compare_button').click(function(){$(this).parents('form').submit();});diafan_ajax.success['shop_buy']=function(form,response){$('.popup').hide(0);centralize($('.popup_cart'));return true;}
+var wish_id=0;diafan_ajax.before['shop_wish']=function(form){wish_id=$("input[name='good_id']",form).val();return true;}
+diafan_ajax.success['shop_wish']=function(form,response){if(wish_id&&response&&response.data){$(".btn_trans[data-good_id='"+wish_id+"']",form).toggleClass("active");wish_id=0;}
+return true;}
+function select_param_price(th)
+{var param_code='';$(".js_shop_depend_param, .depend_param",th).each(function(){param_code=param_code+'['+$(this).attr('name')+'='+$(this).val()+']';});if($('.js_shop_param_price, .shop_param_price',th).length)
+{$('.js_shop_param_price, .shop_param_price',th).hide();if($('.js_shop_param_price'+param_code+', .shop_param_price'+param_code,th).length)
+{$('.js_shop_param_price'+param_code+', .shop_param_price'+param_code,th).show();var image_id=$('.js_shop_param_price'+param_code+', .shop_param_price'+param_code,th).attr('image_id');if(image_id)
+{var item=th.find('.js_shop_param_price'+param_code+', .shop_param_price'+param_code).parents(".catalog__item");if(item.length){$(".catalog__pic",item).hide();$(".catalog__pic[data-id='"+image_id+"']").show();}else{$(".pics__mini").removeClass("pics__mini_active");$(".pics__big__img").hide();$(".pics__big__img[data-id='"+image_id+"']").show();$(".pics__mini[data-id='"+image_id+"']").addClass("pics__mini_active");}}
+if($('.js_shop_param_price'+param_code+', .shop_param_price'+param_code,th).find('.js_shop_no_buy, .shop_no_buy').length)
+{$('.js_show_waitlist, .shop_waitlist',th).show();$('.js_shop_buy, .to-cart',th).hide();$('.js_shop_one_click, .shop_one_click',th).hide();}else
+{if($('.js_shop_no_buy_good, .shop_no_buy_good',th).length)
+{$('.js_shop_waitlist, .shop_waitlist',th).show();}else
+{$('.js_shop_waitlist, .shop_waitlist',th).hide();}
+$('.js_shop_buy, .to-cart',th).show();$('.js_shop_one_click, .shop_one_click',th).show();}}else
+{th.parents('.js_shop, .shop').find('.js_shop_img, .shop_img img, .shop_all_img img').each(function(){if($('.js_shop_param_price[image_id='+$(this).attr('image_id')+'], .shop_param_price[image_id='+$(this).attr('image_id')+']',th).length)
+{$(this).hide();}});$('.js_shop_buy, .to-cart',th).hide();$('.js_shop_one_click, .shop_one_click',th).hide();$('.js_shop_waitlist, .shop_waitlist',th).hide();}}}
+function empty_param_price(th)
+{if(!$('.js_shop_param_price',th).length)
+return;$('.js_shop_param_price',th).each(function(){if(!$(".js_shop_no_buy",this).length){for(var i=0,atts=$(this).get(0).attributes,n=atts.length;i<n;i++){if(atts[i].nodeName.indexOf("param")>-1){$("select[name='"+atts[i].nodeName+"']",th).val(atts[i].nodeValue);}}
+return false;}});}
