@@ -19,6 +19,11 @@
   background-size: 30px 19px;
   background-position: center;
 }
+.menu,
+.nav {
+  list-style-type: none;
+  padding-left: 0;
+}
 @media (max-width: 1000px) {
   #wrapper {
     min-width: auto;
@@ -287,5 +292,21 @@
   }
   .nav__popup {
     top: 200%;
+  }
+  .cart tr {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+  }
+  .cart__pic {
+    width: 30%;
+  }
+  .cart__name {
+    width: 70%;
+  }
+  .login input:not([type="submit"]):not([type="button"]):not([type="image"]) {
+    margin-bottom: 10px;
   }
 }
